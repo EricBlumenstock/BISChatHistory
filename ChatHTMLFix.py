@@ -1,5 +1,7 @@
 import sys
 import pymysql as sql
+import datetime as dt
+
 
 def filetokenreplace(path):
 
@@ -16,13 +18,32 @@ def filetokenreplace(path):
     with open(path, mode='w') as file:
         file.writelines(w)
 
-    filetokenreplace()
+
+def replace(item):
+    tokens = {'&lt;': '<', '&gt;': '>', '<>': ''}
+
+    for key in tokens:
+        item = item.replace(key, tokens[key])
+
+    return item
 
 
 def main():
-    filetokenreplace(sys.argv[1])
 
-    sql.connect()
+    #TODO create connection
+    with sql.connect(host='vm-database', port=3306, user='', passwd='', db='mysql') as db:
+        cur = db.cursor()
+
+        #TODO
+        cur.execute('')
+
+        w = list(cur.fetchall())
+
+    for record in w:
+        record = replace(record)
+
+    with open(str(dt.date) + ' ChatHist', mode='w') as file:
+        file.writelines(w)
 
 
 main()
